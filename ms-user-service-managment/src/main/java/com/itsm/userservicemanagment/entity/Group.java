@@ -3,7 +3,6 @@ package com.itsm.userservicemanagment.entity;
 
 import javax.persistence.Entity;
 
-
 @Entity
-public class User {
+public class Group {
 }
