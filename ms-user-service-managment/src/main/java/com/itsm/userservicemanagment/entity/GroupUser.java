@@ -1,6 +1,5 @@
 package com.itsm.userservicemanagment.entity;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,18 +9,12 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-public class User {
+public class GroupUser {
 
     private Long id;
-    private String fullName;
-    private String email;
-    private String jobTitle;
-    private boolean active;
-    private long countAttempt;
+    private Group group;
+    private User user;
     private LocalDateTime createDate;
-    private LocalDateTime modifyDate;
-    private boolean deleted;
-
-
+    private User createBy;
 
 }
