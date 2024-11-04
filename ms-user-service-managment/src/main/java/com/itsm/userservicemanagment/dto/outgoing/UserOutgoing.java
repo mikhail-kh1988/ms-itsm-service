@@ -1,27 +1,22 @@
-package com.itsm.userservicemanagment.entity;
-
+package com.itsm.userservicemanagment.dto.outgoing;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
-@Entity
-public class User {
-
+public class UserOutgoing {
     private Long id;
     private String fullName;
     private String email;
     private String jobTitle;
     private boolean active;
-    private long countAttempt;
     private LocalDateTime createDate;
     private LocalDateTime modifyDate;
-    private boolean deleted;
-
-
+    private List<String> groupList;
+    private List<String> roleList;
 
 }
