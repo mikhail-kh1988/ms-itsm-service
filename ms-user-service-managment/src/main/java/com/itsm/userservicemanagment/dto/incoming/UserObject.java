@@ -9,9 +9,11 @@ import java.util.List;
 @Setter
 public class UserObject {
 
-    private String fullName;
+    private String family;
+    private String name;
+    private String fatherName;
     private String email;
     private String jobTitle;
-    private List<Long> roles;
+    private boolean tech;
 
 }

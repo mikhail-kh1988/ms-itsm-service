@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -19,8 +20,11 @@ public class Group {
     private String description;
     private LocalDateTime createDate;
     private LocalDateTime modifyDate;
+    private LocalDateTime workPeriodTo;
+    private LocalDateTime workPeriodFrom;
     private boolean approval;
     private boolean assignee;
     private boolean system;
+    private boolean notification;
 
 }

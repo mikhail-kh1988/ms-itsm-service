@@ -9,11 +9,10 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-public class GroupUser {
+public class GlobalPreference {
 
     private Long id;
-    private Group group;
-    private User user;
+    private String name;
     private LocalDateTime createDate;
-    private User createBy;
+
 }

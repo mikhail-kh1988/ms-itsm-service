@@ -13,7 +13,11 @@ import java.time.LocalDateTime;
 public class User {
 
     private Long id;
+    private boolean techAccount;
     private String fullName;
+    private String family;
+    private String name;
+    private String fatherName;
     private String email;
     private String jobTitle;
     private boolean active;
@@ -21,6 +25,9 @@ public class User {
     private LocalDateTime createDate;
     private LocalDateTime modifyDate;
     private boolean deleted;
+    private String language;
+    private String timeZone;
+
 
 
 
