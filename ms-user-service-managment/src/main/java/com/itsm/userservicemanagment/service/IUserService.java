@@ -12,6 +12,8 @@ public interface IUserService {
     String modify(UserObject user);
     String delete(long id);
     UserOutgoing getUserById(long id);
+    List<UserOutgoing> findUser(String login, String name);
+    List<UserOutgoing> getAllTechUser();
     List<UserOutgoing> getAllUser();
     List<UserOutgoing> getDeleteUser();
     List<UserOutgoing> getNotActiveUser();

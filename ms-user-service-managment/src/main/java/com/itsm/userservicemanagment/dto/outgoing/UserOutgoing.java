@@ -14,9 +14,12 @@ public class UserOutgoing {
     private String email;
     private String jobTitle;
     private boolean active;
+    private String timeZone;
+    private String language;
     private LocalDateTime createDate;
     private LocalDateTime modifyDate;
     private List<String> groupList;
     private List<String> roleList;
+
 
 }
