@@ -18,6 +18,7 @@ public class Group {
     private boolean active;
     private User owner;
     private String description;
+    private String timeZone;
     private LocalDateTime createDate;
     private LocalDateTime modifyDate;
     private LocalDateTime workPeriodTo;

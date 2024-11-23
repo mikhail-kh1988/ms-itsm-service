@@ -1,6 +1,7 @@
 package com.itsm.userservicemanagment.service;
 
 import com.itsm.userservicemanagment.dto.incoming.UserObject;
+import com.itsm.userservicemanagment.dto.outgoing.Result;
 import com.itsm.userservicemanagment.dto.outgoing.UserOutgoing;
 
 
@@ -8,9 +9,10 @@ import java.util.List;
 
 public interface IUserService {
 
-    String create(UserObject user);
-    String modify(UserObject user);
-    String delete(long id);
+    Result create(UserObject user);
+    Result modify(UserObject user);
+    Result changePassword(Long userId, String password);
+    Result delete(long id);
     UserOutgoing getUserById(long id);
     List<UserOutgoing> findUser(String login, String name);
     List<UserOutgoing> getAllTechUser();

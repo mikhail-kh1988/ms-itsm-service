@@ -19,6 +19,8 @@ public class User {
     private String name;
     private String fatherName;
     private String email;
+    private String login;
+    private String password;
     private String jobTitle;
     private boolean active;
     private long countAttempt;
@@ -27,8 +29,6 @@ public class User {
     private boolean deleted;
     private String language;
     private String timeZone;
-
-
 
 
 }
