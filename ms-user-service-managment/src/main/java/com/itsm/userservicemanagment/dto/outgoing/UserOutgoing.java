@@ -11,6 +11,7 @@ import java.util.List;
 public class UserOutgoing {
     private Long id;
     private String fullName;
+    private String login;
     private String email;
     private String jobTitle;
     private boolean active;

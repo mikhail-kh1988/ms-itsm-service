@@ -13,6 +13,7 @@ public class GroupOutgoing {
     private Long id;
     private String name;
     private String typeGroup;
+    private String timeZone;
     private LocalDateTime workTo;
     private LocalDateTime workFrom;
     private String fullNameOwner;

@@ -4,18 +4,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Entity;
-import java.time.LocalDateTime;
-import java.util.spi.LocaleNameProvider;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
-public class UserRole {
+public class UserPreference {
 
     private Long id;
     private User user;
-    private Role role;
-    private LocalDateTime createDate;
-    private User createBy;
+    private GlobalPreference globalPreference;
+    private List<Preference> preferences;
 
 }
