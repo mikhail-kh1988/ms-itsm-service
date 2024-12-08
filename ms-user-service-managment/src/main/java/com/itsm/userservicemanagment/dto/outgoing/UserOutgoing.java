@@ -19,8 +19,8 @@ public class UserOutgoing {
     private String language;
     private LocalDateTime createDate;
     private LocalDateTime modifyDate;
-    private List<String> groupList;
-    private List<String> roleList;
+    private List<String> groups;
+    private List<String> roles;
 
 
 }

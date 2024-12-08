@@ -4,14 +4,18 @@ package com.itsm.userservicemanagment.entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
+@Table(name = "users")
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private boolean techAccount;
     private String fullName;
@@ -22,6 +26,7 @@ public class User {
     private String login;
     private String password;
     private String jobTitle;
+    private String ldapId;
     private boolean active;
     private long countAttempt;
     private LocalDateTime createDate;
@@ -30,5 +35,7 @@ public class User {
     private String language;
     private String timeZone;
 
+    @OneToMany(mappedBy = "user")
+    private List<GroupUser> groupUsers;
 
 }

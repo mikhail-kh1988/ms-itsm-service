@@ -9,13 +9,14 @@ import java.util.List;
 
 public interface IUserService {
 
-    Result create(UserObject user);
+    Result create(UserObject user) throws IllegalAccessException, NoSuchFieldException;
     Result modify(UserObject user);
     Result changePassword(Long userId, String password);
     Result delete(long id);
     UserOutgoing getUserById(long id);
     List<UserOutgoing> findUser(String login, String name);
     List<UserOutgoing> getAllTechUser();
+    List<UserOutgoing> getAllActiveNotTechUser();
     List<UserOutgoing> getAllUser();
     List<UserOutgoing> getDeleteUser();
     List<UserOutgoing> getNotActiveUser();
