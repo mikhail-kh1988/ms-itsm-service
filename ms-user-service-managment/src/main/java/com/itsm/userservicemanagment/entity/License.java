@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Entity
+//@Entity
 public class License {
 
     private String id;

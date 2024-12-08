@@ -13,6 +13,7 @@ public class UserObject {
     private String fatherName;
     private String email;
     private String jobTitle;
+    private String ldapId;
     private boolean tech;
     private boolean active;
     private String language;

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@Entity
+//@Entity
 public class UserPreference {
 
     private Long id;
