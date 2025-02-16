@@ -27,6 +27,8 @@ public class GroupUser {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User createBy;
 
+    private String action;
+
 
 
 }

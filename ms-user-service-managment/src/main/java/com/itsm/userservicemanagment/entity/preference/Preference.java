@@ -1,4 +1,4 @@
-package com.itsm.userservicemanagment.entity;
+package com.itsm.userservicemanagment.entity.preference;
 
 import lombok.Getter;
 import lombok.Setter;

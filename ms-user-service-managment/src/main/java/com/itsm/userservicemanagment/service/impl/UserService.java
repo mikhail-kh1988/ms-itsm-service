@@ -9,6 +9,7 @@ import com.itsm.userservicemanagment.entity.User;
 import com.itsm.userservicemanagment.repository.GroupRepository;
 import com.itsm.userservicemanagment.repository.GroupUserRepository;
 import com.itsm.userservicemanagment.repository.UserRepository;
+import com.itsm.userservicemanagment.service.IEventLogService;
 import com.itsm.userservicemanagment.service.IUserService;
 import com.itsm.userservicemanagment.tools.FieldValidator;
 import com.itsm.userservicemanagment.tools.TransferUserToFromDtoObject;
@@ -25,6 +26,7 @@ public class UserService implements IUserService {
 
     @Autowired
     private UserRepository repository;
+
     @Autowired
     private GroupUserRepository groupUserRepository;
 
@@ -72,7 +74,6 @@ public class UserService implements IUserService {
         result.setMessage("Success! User create by ID:"+user.getId()+".");
 
         return result;
-
     }
 
     //TODO crete been validators

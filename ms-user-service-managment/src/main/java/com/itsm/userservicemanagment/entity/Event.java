@@ -9,13 +9,16 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "global_reference")
-public class GlobalPreference {
+@Table(name = "event")
+public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private String entity;
+    private String createByLogin;
     private LocalDateTime createDate;
+    private String operation;
+    private String message;
 
 }

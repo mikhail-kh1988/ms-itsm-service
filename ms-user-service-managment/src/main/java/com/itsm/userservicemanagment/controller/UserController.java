@@ -1,9 +1,13 @@
 package com.itsm.userservicemanagment.controller;
 
 import com.itsm.userservicemanagment.dto.incoming.FindUser;
+import com.itsm.userservicemanagment.dto.incoming.RoleObject;
 import com.itsm.userservicemanagment.dto.incoming.UserObject;
 import com.itsm.userservicemanagment.dto.outgoing.Result;
+import com.itsm.userservicemanagment.dto.outgoing.ShortRole;
 import com.itsm.userservicemanagment.dto.outgoing.UserOutgoing;
+import com.itsm.userservicemanagment.entity.Role;
+import com.itsm.userservicemanagment.service.IRoleService;
 import com.itsm.userservicemanagment.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +21,9 @@ public class UserController {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IRoleService roleService;
 
     @PutMapping("/")
     public ResponseEntity<Result> createNewUser(@RequestBody UserObject userObject) throws IllegalAccessException, NoSuchFieldException {
@@ -67,4 +74,33 @@ public class UserController {
     public ResponseEntity<Result> modify(){
         return ResponseEntity.ok(userService.modify(null));
     }
+
+    // Role service realisation.
+
+
+    @GetMapping("/role/")
+    public ResponseEntity<List<ShortRole>> getAllRoles(){
+        return ResponseEntity.ok(roleService.getAllRole());
+    }
+
+    @GetMapping("/role/{id}")
+    public ResponseEntity<Role> getRoleById(@PathVariable Long id){
+        return ResponseEntity.ok(roleService.getRoleById(id));
+    }
+
+    @PutMapping("/role/")
+    public ResponseEntity<Result> createNewRole(@RequestBody RoleObject roleObject){
+        return ResponseEntity.ok(roleService.create(roleObject));
+    }
+
+    @PostMapping("/role/{id}")
+    public ResponseEntity<Result> modifyRole(@RequestBody RoleObject roleObject, @PathVariable Long id){
+        return ResponseEntity.ok(roleService.modify(roleObject, id));
+    }
+
+    @DeleteMapping("/role/{id}")
+    public ResponseEntity<Result> deleteRole(@PathVariable Long id){
+        return ResponseEntity.ok(roleService.delete(id));
+    }
+
 }
