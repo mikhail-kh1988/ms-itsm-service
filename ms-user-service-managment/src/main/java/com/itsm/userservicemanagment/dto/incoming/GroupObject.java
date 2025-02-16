@@ -13,6 +13,7 @@ public class GroupObject {
     private String name;
     private Long ownerId;
     private String description;
+    private String timeZone;
     private boolean approval;
     private boolean assignee;
     private boolean system;
