@@ -15,6 +15,7 @@ public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String externalId;
     private String entity;
     private String createByLogin;
     private LocalDateTime createDate;

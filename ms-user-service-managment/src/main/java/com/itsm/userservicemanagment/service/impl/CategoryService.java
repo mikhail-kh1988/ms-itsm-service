@@ -7,6 +7,7 @@ import com.itsm.userservicemanagment.Exception.NotFoundUserExcption;
 import com.itsm.userservicemanagment.dto.incoming.category.NewCategory;
 import com.itsm.userservicemanagment.dto.incoming.category.NewSubCategory;
 import com.itsm.userservicemanagment.dto.outgoing.Result;
+import com.itsm.userservicemanagment.dto.outgoing.categorization.CategoryList;
 import com.itsm.userservicemanagment.dto.outgoing.categorization.SubCat;
 import com.itsm.userservicemanagment.entity.category.*;
 import com.itsm.userservicemanagment.repository.CategoryRepository;
@@ -18,6 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class CategoryService implements ICategoryService {
@@ -119,5 +123,29 @@ public class CategoryService implements ICategoryService {
         cat.setCreateByLogin(subCategory.getCreateByLogin());
 
         return cat;
+    }
+
+    @Override
+    public CategoryList getAllCategoriesBySubCat(Long subCatId) {
+
+        CategoryList categoryList = new CategoryList();
+        categoryList.setTotal(0);
+        HashMap<String, Long> catNames = new HashMap<>();
+
+        if (categoryRepository.findBySubCategoryId(subCatId).isEmpty())
+            throw new NotFoundSubCategoryException("Not found sub category by id ");
+
+        List<Category> bySubCategoryId = categoryRepository.findBySubCategoryId(subCatId);
+
+        for (Category cat: bySubCategoryId) {
+            catNames.put(cat.getCategoryName(), cat.getId());
+        }
+
+        categoryList.setCategory(subCategoryRepository.findById(subCatId).get().getCategoryName());
+        categoryList.setSubCategories(catNames);
+        categoryList.setTotal(catNames.size());
+
+
+        return categoryList;
     }
 }

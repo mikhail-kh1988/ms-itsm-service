@@ -23,6 +23,8 @@ public class ElementKE {
     private String manufactured;
     private String serialNumber;
     private String licenseNumber;
+    private String realiseNumber;
+    private String kontur;
     private Boolean logical;
     private StatusSubElementKE subStatus;
     private Integer  price;
@@ -32,5 +34,6 @@ public class ElementKE {
     private Boolean softWare;
     private Boolean hardWare;
     private Boolean licenseWare;
+    private Boolean informationSystem;
 
 }

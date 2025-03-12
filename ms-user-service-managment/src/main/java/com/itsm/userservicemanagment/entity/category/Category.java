@@ -1,6 +1,7 @@
 package com.itsm.userservicemanagment.entity.category;
 
 import com.itsm.userservicemanagment.entity.User;
+import com.itsm.userservicemanagment.entity.ke.ConfigurationElement;
 import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +30,8 @@ public class Category {
     private User createBy;
     private String createByLogin;
 
+    // Add element after crate and maping db element;
+    // private ConfigurationElement KE;
     private String description;
     private String priorityLevel;
     private String impactLevel;
