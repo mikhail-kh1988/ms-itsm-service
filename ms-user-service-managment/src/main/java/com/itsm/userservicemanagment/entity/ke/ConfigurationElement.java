@@ -23,6 +23,8 @@ public class ConfigurationElement {
     private String manufactured;
     private String licenseNumber;
     private String serialNumber;
+    private String realiseNumber;
+    private String kontur;
     private Boolean logical;
     private StatusKE status;
     private Integer  price;
@@ -42,6 +44,7 @@ public class ConfigurationElement {
     private Boolean softWare;
     private Boolean hardWare;
     private Boolean licenseWare;
+    private Boolean informationSystem;
 
 
 }

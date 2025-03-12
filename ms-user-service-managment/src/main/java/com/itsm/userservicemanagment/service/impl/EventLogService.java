@@ -16,10 +16,11 @@ public class EventLogService implements IEventLogService {
     private EventRepository repository;
 
     @Override
-    public void addEventLog(String createByLogin, String entity, String operation, String message) {
+    public void addEventLog(String createByLogin, String entity, String operation, String message, String externalId) {
 
         Event event = new Event();
 
+        event.setExternalId(externalId);
         event.setEntity(entity);
         event.setMessage(message);
         event.setOperation(operation);

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IEventLogService {
 
-    void addEventLog(String createByLogin, String entity, String operation, String message);
+    void addEventLog(String createByLogin, String entity, String operation, String message, String externalId);
     List<Event> getEventsByEntity(String entity);
     List<Event> getEventsByUser(String login);
     List<Event> getEventsByOperation(String operation);

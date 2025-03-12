@@ -4,6 +4,7 @@ import com.itsm.userservicemanagment.dto.incoming.category.NewCategory;
 import com.itsm.userservicemanagment.dto.incoming.category.NewSubCategory;
 import com.itsm.userservicemanagment.dto.outgoing.Result;
 import com.itsm.userservicemanagment.dto.outgoing.categorization.Category;
+import com.itsm.userservicemanagment.dto.outgoing.categorization.CategoryList;
 import com.itsm.userservicemanagment.dto.outgoing.categorization.SubCat;
 import com.itsm.userservicemanagment.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,11 @@ public class CategoryController {
     @GetMapping("/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable Long id){
         return ResponseEntity.ok(categoryService.findByCategoryId(id));
+    }
+
+    @GetMapping("/{subCatId}/allCat")
+    public ResponseEntity<CategoryList> getCategoriesBySubCategory(@PathVariable Long subCatId){
+        return ResponseEntity.ok(categoryService.getAllCategoriesBySubCat(subCatId));
     }
 
 

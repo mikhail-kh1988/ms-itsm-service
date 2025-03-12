@@ -17,6 +17,11 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(new ErrorMessage("Unknown error", LocalDateTime.now()), HttpStatus.FORBIDDEN);
     }
 
+    @ExceptionHandler(NotFoundTaskException.class)
+    protected ResponseEntity<ErrorMessage> handleNotFoundTaskException(){
+        return new ResponseEntity<>(new ErrorMessage("Task not found!", LocalDateTime.now()), HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(NotFoundUserExcption.class)
     protected ResponseEntity<ErrorMessage> handleNotFoundUserException(){
         return new ResponseEntity<>(new ErrorMessage("User not found!", LocalDateTime.now()), HttpStatus.NOT_FOUND);
