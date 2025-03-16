@@ -1,6 +1,5 @@
 package com.itsm.userservicemanagment.entity.incident;
 
-import com.itsm.userservicemanagment.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,11 +7,11 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class IncidentProgressInWork {
+public class IncidentServiceDateManagement {
 
     private Long id;
-    private ProgressInWork progressInWork;
-    private User createBy;
+    private ServiceDateManagement serviceDateManagement;
     private Incident incident;
     private LocalDateTime createDate;
+
 }
