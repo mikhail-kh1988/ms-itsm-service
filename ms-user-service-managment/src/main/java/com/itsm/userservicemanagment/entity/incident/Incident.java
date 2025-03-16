@@ -19,21 +19,34 @@ public class Incident {
 
     private Long id;
     private String externalId;
+    // Who create incident
     private Contact contact;
+    private User createByUser;
+    private Group createByGroup;
     private String externalTicketNumber;
+    //Body incident
     private String title;
     private String body;
     private String Resolution;
+    private Boolean isRequest;
+    private Boolean isCritical;
+    private Boolean isMass;
+    //Statuses
+    private IncidentStatus status;
+    private IncidentStatusReason reason;
     private Impact impact;
     private Priority priority;
+    //Categorisation
     private Category category;
-    private Boolean isMass;
     private ConfigurationElement configurationElement;
+    //Assignee
     private User assignee;
+    private User owner;
     private Group assigneeGroup;
+    //Date
     private LocalDateTime targetDate;
     private LocalDateTime createDate;
-
+    private LocalDateTime lastChangeDate;
 
 
 }
