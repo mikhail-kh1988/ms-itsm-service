@@ -5,13 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class NewIncidentByTemplate {
+public class UpdateIncidentBodes {
 
     private String body;
-    private Long templateId;
-    private Long createById;
-    private Long contactId;
-
-
+    private String title;
+    private String resolution;
 
 }

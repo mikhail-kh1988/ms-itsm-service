@@ -12,6 +12,7 @@ public class HardWare {
     private LicenseWare license;
     private String serialNumber;
     private String ipAddress;
+    private String dnsName;
     private String manufactured;
     private String address;
     private String building;
