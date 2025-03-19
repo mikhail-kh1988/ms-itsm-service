@@ -28,6 +28,7 @@ public class Incident {
     private String title;
     private String body;
     private String Resolution;
+    private Boolean isResolve;
     private Boolean isRequest;
     private Boolean isCritical;
     private Boolean isMass;

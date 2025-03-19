@@ -9,17 +9,20 @@ import lombok.Setter;
 public class NewIncident {
 
 
-    private long contactId;
+    private Long contactId;
     private String externalTicketNumber;
     private String title;
     private String body;
-    private long impact;
-    private long priority;
-    private long categoryId;
+    private Long impact;
+    private int priority;
+    private int categoryId;
     private Boolean isMass;
-    private long configurationElementId;
-    private long assigneeUserId;
-    private long assigneeGroupId;
+    private Boolean isRequest;
+    private Boolean isCritical;
+    private Long configurationElementId;
+    private Long createById;
+    private Long assigneeUserId;
+    private Long assigneeGroupId;
 
 
 }

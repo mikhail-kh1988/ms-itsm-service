@@ -5,13 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class NewIncidentByTemplate {
+public class ProgressAdd {
 
-    private String body;
-    private Long templateId;
+    private String comment;
     private Long createById;
-    private Long contactId;
-
-
-
+    private String action;
 }

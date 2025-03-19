@@ -1,4 +1,4 @@
-package com.itsm.userservicemanagment.entity.incident;
+package com.itsm.userservicemanagment.dto.outgoing.incident;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,9 +7,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class ServiceDateManagement {
+public class SLA {
 
-    private Long id;
     private LocalDateTime createDate;
     private LocalDateTime targetDate;
     private LocalDateTime changeDate;
@@ -25,5 +24,6 @@ public class ServiceDateManagement {
 
     // OverTime
     private Boolean overDate;
+
 
 }
