@@ -12,7 +12,6 @@ import lombok.Setter;
 @Setter
 public class IncidentTemplate {
 
-
     private Long id;
     private String templateName;
     private String description;
