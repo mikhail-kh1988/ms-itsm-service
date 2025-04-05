@@ -1,23 +1,18 @@
-package com.itsm.userservicemanagment.entity.ke;
+package com.itsm.userservicemanagment.dto.outgoing.KE;
 
+import com.itsm.userservicemanagment.entity.ke.LicenseWare;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "hard_ware")
-public class HardWare {
+public class HardWareKE {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private LicenseWare license;
+    private String licenseName;
 
     private String serialNumber;
     private String ipAddress;
@@ -26,5 +21,4 @@ public class HardWare {
     private String address;
     private String building;
     private int price;
-
 }

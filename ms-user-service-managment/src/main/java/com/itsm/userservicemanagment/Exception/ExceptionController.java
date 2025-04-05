@@ -57,6 +57,20 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(new ErrorMessage("Not found sub Category!", LocalDateTime.now()), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(NotFoundNameConfigurationElement.class)
+    protected ResponseEntity<ErrorMessage> handleNotFoundNameConfigurationElement(){
+        return new ResponseEntity<>(new ErrorMessage("Not found name for KE!", LocalDateTime.now()), HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(NotFoundKeException.class)
+    protected ResponseEntity<ErrorMessage> handleNotFoundKeException(){
+        return new ResponseEntity<>(new ErrorMessage("Not found KE!", LocalDateTime.now()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(NotFoundStatusException.class)
+    protected ResponseEntity<ErrorMessage> handleNotFoundStatusException(){
+        return new ResponseEntity<>(new ErrorMessage("Not found status!", LocalDateTime.now()), HttpStatus.NOT_FOUND);
+    }
+
     protected ResponseEntity<ErrorMessage> handleGroupIsNotApprovalException(){
         return new ResponseEntity<>(new ErrorMessage("Group not for approval", LocalDateTime.now()), HttpStatus.FOUND);
     }

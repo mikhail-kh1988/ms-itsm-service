@@ -21,5 +21,8 @@ public class SubCategory {
     private LocalDateTime lastModifyDate;
     private String createByLogin;
     private String description;
+    // private Boolean incident;
+    // private Boolean problem;
+    // private Boolean change;
 
 }

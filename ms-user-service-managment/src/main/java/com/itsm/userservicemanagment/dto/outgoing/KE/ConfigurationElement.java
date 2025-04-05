@@ -1,33 +1,28 @@
-package com.itsm.userservicemanagment.entity.ke;
+package com.itsm.userservicemanagment.dto.outgoing.KE;
 
-import com.itsm.userservicemanagment.entity.Group;
-import com.itsm.userservicemanagment.entity.User;
+import com.itsm.userservicemanagment.entity.ke.Assurance;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "configuration_element")
 public class ConfigurationElement {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String configurationName;
     private String description;
     private String version;
     private String prefix;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private User owner;
+    private String ownerLogin;
+    private String ownerFullName;
+    private Long ownerUserId;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Group ownerGroup;
+    private String ownerGroupName;
+    private Long ownerGroupId;
 
     private String address;
     private String manufactured;
@@ -37,10 +32,8 @@ public class ConfigurationElement {
     private String kontur;
     private Boolean logical;
     private String status;
-
     private Integer  price;
     //гарантия
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Assurance assurance;
 
     private LocalDateTime createDate;
@@ -48,12 +41,16 @@ public class ConfigurationElement {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private User modifyBy;
+    private String modifyByLogin;
 
     private Boolean softWare;
     private Boolean hardWare;
     private Boolean licenseWare;
     private Boolean informationSystem;
+
+    private List<ChildConfigElement> childKEList;
+    private List<HardWareKE> hardWareKEList;
+    private List<SoftWareKE> softWareKEList;
+    private List<LicenseWareKE> licenseWareKEList;
 
 }
