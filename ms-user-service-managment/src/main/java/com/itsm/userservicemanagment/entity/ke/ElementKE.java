@@ -39,7 +39,7 @@ public class ElementKE {
     private String realiseNumber;
     private String kontur;
     private Boolean logical;
-    private StatusSubElementKE subStatus;
+    private String subStatus;
     private Integer  price;
     private LocalDateTime createDate;
     private LocalDateTime lastModifyDate;
