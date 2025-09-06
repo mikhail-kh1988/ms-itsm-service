@@ -17,6 +17,15 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(new ErrorMessage("Unknown error", LocalDateTime.now()), HttpStatus.FORBIDDEN);
     }
 
+    @ExceptionHandler(NotFoundConfigurationElement.class)
+    protected ResponseEntity<ErrorMessage> handleNotFoundConfigurationElement(){
+        return new ResponseEntity<>(new ErrorMessage("Configuration element not found", LocalDateTime.now()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(NotFoundIncidentException.class)
+    protected ResponseEntity<ErrorMessage> handleNotFoundIncidentException(){
+        return new ResponseEntity<>(new ErrorMessage("Incident not found!", LocalDateTime.now()), HttpStatus.NOT_FOUND);
+    }
     @ExceptionHandler(NotFoundTaskException.class)
     protected ResponseEntity<ErrorMessage> handleNotFoundTaskException(){
         return new ResponseEntity<>(new ErrorMessage("Task not found!", LocalDateTime.now()), HttpStatus.NOT_FOUND);
@@ -69,6 +78,18 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     @ExceptionHandler(NotFoundStatusException.class)
     protected ResponseEntity<ErrorMessage> handleNotFoundStatusException(){
         return new ResponseEntity<>(new ErrorMessage("Not found status!", LocalDateTime.now()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(NotFoundPriorityException.class)
+    protected ResponseEntity<ErrorMessage> handleNotFoundPriorityException(){
+        return new ResponseEntity<>(new ErrorMessage("Not found priority!", LocalDateTime.now()), HttpStatus.NOT_FOUND);
+    }
+
+
+
+    @ExceptionHandler(NotFoundImpactException.class)
+    protected ResponseEntity<ErrorMessage> handleNotFoundImpactException(){
+        return new ResponseEntity<>(new ErrorMessage("Not found impact!", LocalDateTime.now()), HttpStatus.NOT_FOUND);
     }
 
     protected ResponseEntity<ErrorMessage> handleGroupIsNotApprovalException(){

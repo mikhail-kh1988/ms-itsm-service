@@ -13,9 +13,10 @@ public class NewIncident {
     private String externalTicketNumber;
     private String title;
     private String body;
-    private Long impact;
+    private int reason;
+    private int impact;
     private int priority;
-    private int categoryId;
+    private Long categoryId;
     private Boolean isMass;
     private Boolean isRequest;
     private Boolean isCritical;
@@ -23,6 +24,5 @@ public class NewIncident {
     private Long createById;
     private Long assigneeUserId;
     private Long assigneeGroupId;
-
 
 }

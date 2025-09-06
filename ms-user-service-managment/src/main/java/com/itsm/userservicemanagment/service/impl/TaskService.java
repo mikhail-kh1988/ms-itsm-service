@@ -1,6 +1,7 @@
 package com.itsm.userservicemanagment.service.impl;
 
 import com.itsm.userservicemanagment.Exception.NotFoundGroupException;
+import com.itsm.userservicemanagment.Exception.NotFoundKeException;
 import com.itsm.userservicemanagment.Exception.NotFoundTaskException;
 import com.itsm.userservicemanagment.Exception.NotFoundUserExcption;
 import com.itsm.userservicemanagment.dto.incoming.task.NewComment;
@@ -9,14 +10,18 @@ import com.itsm.userservicemanagment.dto.incoming.task.UpdateTask;
 import com.itsm.userservicemanagment.dto.outgoing.Result;
 import com.itsm.userservicemanagment.dto.outgoing.task.TaskAllList;
 import com.itsm.userservicemanagment.dto.outgoing.task.TaskListByGroup;
+import com.itsm.userservicemanagment.dto.outgoing.task.TaskOut;
 import com.itsm.userservicemanagment.entity.category.Priority;
 import com.itsm.userservicemanagment.entity.task.*;
 import com.itsm.userservicemanagment.repository.*;
 import com.itsm.userservicemanagment.service.ITaskService;
+import com.itsm.userservicemanagment.tools.TransferTaskToFromDtoObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class TaskService implements ITaskService {
@@ -219,6 +224,69 @@ public class TaskService implements ITaskService {
         return result;
     }
 
+    @Override
+    public Result changeStatusTask(String taskId, Integer status) {
+
+        Task task = new Task();
+
+        if (taskRepository.findByExternalId(taskId).isEmpty())
+            throw new NotFoundTaskException("Task not found");
+        else
+            task = taskRepository.findByExternalId(taskId).get();
+
+
+        switch (status){
+            case 1:
+                task.setStatus(StatusTask.NEW);
+                break;
+
+            case 2:
+                task.setStatus(StatusTask.RUN);
+                break;
+
+            case 3:
+                task.setStatus(StatusTask.COMPLETED);
+                break;
+
+            case 4:
+                task.setStatus(StatusTask.CLOSE);
+                break;
+
+            default:
+                task.setStatus(StatusTask.NEW);
+
+        }
+
+        taskRepository.save(task);
+
+        Result result = new Result();
+        result.setDate(LocalDateTime.now());
+        result.setMessage("Task ["+task.getExternalId()+"] change status on ["+task.getStatus().toString()+"] .");
+
+        return result;
+    }
+
+    @Override
+    public TaskOut getTask(String taskId) {
+
+        Task task = new Task();
+        TaskOut output = new TaskOut();
+
+        if (taskRepository.findByExternalId(taskId) == null) {
+            throw new NotFoundTaskException("Task not found");
+        }
+        else if(taskRepository.findByExternalId(taskId).isEmpty()) {
+            throw new NotFoundTaskException("Task not found");
+        }
+
+        task = taskRepository.findByExternalId(taskId).get();
+
+        output = TransferTaskToFromDtoObject.transferFromTask(task);
+
+
+        return output;
+    }
+
 
     @Override
     public TaskAllList getAllTask() {
@@ -227,6 +295,28 @@ public class TaskService implements ITaskService {
 
     @Override
     public TaskListByGroup findByGroupId(Long id) {
-        return null;
+
+        TaskListByGroup outputListTask = new TaskListByGroup();
+        List<TaskOut> listDtoTask = new ArrayList<>();
+
+        if (taskRepository.findByAssigneeGroupId(id) == null) {
+            throw new NotFoundTaskException("Task not found");
+        }
+        else if(taskRepository.findByAssigneeGroupId(id).isEmpty()) {
+            throw new NotFoundTaskException("Task not found");
+        }
+
+        for (Task task : taskRepository.findByAssigneeGroupId(id)){
+            listDtoTask.add(TransferTaskToFromDtoObject.transferFromTask(task));
+        }
+
+        outputListTask.setTasks(listDtoTask);
+        outputListTask.setGroupName(groupRepository.findById(id).get().getName());
+
+        outputListTask.setCloseTask(null);
+        outputListTask.setOpenTask(null);
+
+
+        return outputListTask;
     }
 }

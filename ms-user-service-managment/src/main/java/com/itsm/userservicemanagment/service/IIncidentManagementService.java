@@ -12,19 +12,19 @@ public interface IIncidentManagementService {
     Result creteNewIncidentByTemplate(NewIncidentByTemplate template);
     Result modifyBodes(UpdateIncidentBodes body);
     Result modifyCategory(UpdateIncidentCategorisation categorisation);
-    Result modifyStatuses(UpdateIncidentStatuses statuses);
+    Result modifyStatuses(String incidentId, UpdateIncidentStatuses statuses);
     Result modifyAssignee(UpdateIncidentAssignee assignee);
+    Result modifyAssigneeGroup(Long assigneeGroupId);
     Result addProgressInWork(ProgressAdd progress);
 
-    //не реализовывать.
     Result addServiceDate();
-    //не реализовывать.
     Result appendFile();
 
+    IncidentListOut findByNotAssigneeGroup();
     IncidentListOut findByGroupId(Long groupId);
     IncidentListOut findByAssigneeUserId(Long userId);
     IncidentOut findByExternalId(String id);
     IncidentOut findByInnerId(Long id);
-    Incident findById(Long id);
+    Incident findByIdInternal(Long id);
     
 }

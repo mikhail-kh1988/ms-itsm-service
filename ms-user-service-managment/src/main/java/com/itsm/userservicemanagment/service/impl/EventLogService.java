@@ -45,4 +45,9 @@ public class EventLogService implements IEventLogService {
     public List<Event> getEventsByOperation(String operation) {
         return repository.findByOperation(operation);
     }
+
+    @Override
+    public List<Event> getEventsByExternalIdEntity(String externalId) {
+        return repository.findByExternalId(externalId);
+    }
 }

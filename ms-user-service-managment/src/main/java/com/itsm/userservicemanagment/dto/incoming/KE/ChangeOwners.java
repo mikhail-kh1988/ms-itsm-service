@@ -9,5 +9,6 @@ public class ChangeOwners {
 
     private Long newOwnerId;
     private Long newOwnerGroupId;
+    private Long changeById;
 
 }

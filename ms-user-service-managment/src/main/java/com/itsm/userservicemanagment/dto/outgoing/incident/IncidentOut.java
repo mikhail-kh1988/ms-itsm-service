@@ -2,6 +2,7 @@ package com.itsm.userservicemanagment.dto.outgoing.incident;
 
 
 import com.itsm.userservicemanagment.entity.Contact;
+import com.itsm.userservicemanagment.entity.Event;
 import com.itsm.userservicemanagment.entity.Group;
 import com.itsm.userservicemanagment.entity.User;
 import com.itsm.userservicemanagment.entity.category.Category;
@@ -34,6 +35,8 @@ public class IncidentOut {
     private String title;
     private String body;
     private String Resolution;
+    private Boolean isWasResolve;
+    private Integer countResolve;
     private Boolean isResolve;
     private Boolean isRequest;
     private Boolean isCritical;
@@ -55,6 +58,8 @@ public class IncidentOut {
     private Long assigneeUserId;
     private String ownerUserFullName;
     private Long ownerUserId;
+    private String ownerGroupName;
+    private Long ownerGroupId;
     private Long assigneeGroupId;
     private String assigneeGroupName;
     //Date
@@ -66,6 +71,7 @@ public class IncidentOut {
 
     private List<Progress> progresses;
     private List<FilesAdded> filesAdded;
+    private List<Event> events;
 
 
 }

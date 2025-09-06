@@ -4,6 +4,8 @@ import com.itsm.userservicemanagment.dto.incoming.task.NewComment;
 import com.itsm.userservicemanagment.dto.incoming.task.NewTask;
 import com.itsm.userservicemanagment.dto.incoming.task.UpdateTask;
 import com.itsm.userservicemanagment.dto.outgoing.Result;
+import com.itsm.userservicemanagment.dto.outgoing.task.TaskListByGroup;
+import com.itsm.userservicemanagment.dto.outgoing.task.TaskOut;
 import com.itsm.userservicemanagment.service.ITaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,23 @@ public class TaskController {
     private ResponseEntity<Result> modifyTask(@PathVariable String taskId, @RequestBody UpdateTask updateTask){
         return ResponseEntity.ok(taskService.modifyTask(updateTask, taskId));
     }
+
+    @PostMapping("/change/{taskId}/status/{status}")
+    private ResponseEntity<Result> changeStatusTask(@PathVariable String taskId, @PathVariable Integer status){
+        return ResponseEntity.ok(taskService.changeStatusTask(taskId, status));
+    }
+
+    @GetMapping("/{taskId}")
+    private ResponseEntity<TaskOut> getTaskById(@PathVariable String taskId){
+        return ResponseEntity.ok(taskService.getTask(taskId));
+    }
+
+
+    @GetMapping("/group/{id}")
+    private ResponseEntity<TaskListByGroup> getTaskByGroup(@PathVariable Long id){
+        return ResponseEntity.ok(taskService.findByGroupId(id));
+    }
+
 
 
 

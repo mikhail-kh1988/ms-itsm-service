@@ -7,9 +7,10 @@ import lombok.Setter;
 @Setter
 public class UpdateIncidentStatuses {
 
-    private Long incidentStatus;
-    private Long incidentStatusReason;
+    private int incidentStatus;
+    private int incidentStatusReason;
     private int impact;
     private int priority;
+    private Long changeById;
 
 }

@@ -71,7 +71,7 @@ public class UserService implements IUserService {
         repository.save(user);
 
         result.setDate(LocalDateTime.now());
-        result.setMessage("Success! User create by ID:"+user.getId()+".");
+        result.setMessage("Success! User create by ID ["+user.getId()+"] and login ["+user.getLogin()+"] .");
 
         return result;
     }
@@ -123,7 +123,7 @@ public class UserService implements IUserService {
 
 
             result.setDate(LocalDateTime.now());
-            result.setMessage("For user by login "+user.getLogin()+" has been change password!");
+            result.setMessage("For user by login ["+user.getLogin()+"] has been change password!");
 
             return result;
         }
@@ -133,7 +133,7 @@ public class UserService implements IUserService {
     public Result delete(long id) {
         if (repository.findById(id).isEmpty()){
             Result result = new Result();
-            result.setMessage("Not found user by ID :"+id);
+            result.setMessage("Not found user by ID :["+id+"]");
             result.setDate(LocalDateTime.now());
 
             return result;
@@ -145,7 +145,7 @@ public class UserService implements IUserService {
 
             repository.save(user);
 
-            result.setMessage("User by login "+user.getLogin()+" has marked by deleted!");
+            result.setMessage("User by login ["+user.getLogin()+"] has marked by deleted!");
             result.setDate(LocalDateTime.now());
             return result;
         }
