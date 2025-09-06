@@ -1,5 +1,6 @@
 package com.itsm.userservicemanagment.dto.outgoing.KE;
 
+import com.itsm.userservicemanagment.entity.Event;
 import com.itsm.userservicemanagment.entity.ke.Assurance;
 import lombok.Getter;
 import lombok.Setter;
@@ -52,5 +53,6 @@ public class ConfigurationElement {
     private List<HardWareKE> hardWareKEList;
     private List<SoftWareKE> softWareKEList;
     private List<LicenseWareKE> licenseWareKEList;
+    private List<Event> eventList;
 
 }

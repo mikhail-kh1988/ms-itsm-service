@@ -12,4 +12,5 @@ public interface EventRepository extends CrudRepository<Event, Long> {
     List<Event> findByEntity(String entity);
     List<Event> findByCreateByLogin(String login);
     List<Event> findByOperation(String operation);
+    List<Event> findByExternalId(String id);
 }

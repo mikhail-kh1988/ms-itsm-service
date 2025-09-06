@@ -17,7 +17,7 @@ public class ConfigurationElementElementKE {
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private ConfigurationElement ke;
+    private ConfigurationElement keke;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private ElementKE elementKE;

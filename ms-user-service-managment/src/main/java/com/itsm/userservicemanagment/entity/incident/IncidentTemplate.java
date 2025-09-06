@@ -17,8 +17,6 @@ public class IncidentTemplate {
     private String description;
     //This is configuration Element;
     private Long KE;
-    private String KEname;
-
     private Category category;
     private Group assigneeGroup;
     private User assigneeUser;

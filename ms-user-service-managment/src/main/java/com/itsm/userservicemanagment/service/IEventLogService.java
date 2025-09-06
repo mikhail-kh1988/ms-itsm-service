@@ -10,4 +10,5 @@ public interface IEventLogService {
     List<Event> getEventsByEntity(String entity);
     List<Event> getEventsByUser(String login);
     List<Event> getEventsByOperation(String operation);
+    List<Event> getEventsByExternalIdEntity(String externalId);
 }

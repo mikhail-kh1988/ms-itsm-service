@@ -1,6 +1,5 @@
 package com.itsm.userservicemanagment.entity.problem;
 
-import com.itsm.userservicemanagment.entity.Contact;
 import com.itsm.userservicemanagment.entity.Group;
 import com.itsm.userservicemanagment.entity.User;
 import com.itsm.userservicemanagment.entity.category.Category;
@@ -31,14 +30,13 @@ public class Problem {
     private ConfigurationElement configurationElement;
     //Assignee
     private User assignee;
-    private User owner;
     private Group assigneeGroup;
-    //Statuses and lifecycle
-    private ProblemLifecycle lifecycle;
+    //Statuses
     private ProblemStatus status;
-    private ProblemType type;
+    private ProblemReason reason;
     //Dates
     private LocalDateTime createDate;
+    private LocalDateTime lastModifyDate;
 
 
 

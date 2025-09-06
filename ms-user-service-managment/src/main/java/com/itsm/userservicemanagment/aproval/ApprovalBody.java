@@ -12,6 +12,7 @@ public class ApprovalBody {
     private Long id;
     private Approval approval;
     private String login;
+    private String fullNameApproval;
     private String email;
     private boolean emailSend;
     private String uniqueApprovalCode;
