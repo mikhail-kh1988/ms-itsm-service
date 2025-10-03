@@ -29,7 +29,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Log4j
+
 @Service
 public class GroupService implements IGroupService {
 

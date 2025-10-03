@@ -11,5 +11,6 @@ public class UpdateIncidentCategorisation {
 
     private Long categoryId;
     private Long configurationElementId;
+    private Long modifyById;
 
 }

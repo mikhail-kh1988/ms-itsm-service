@@ -5,18 +5,21 @@ import com.itsm.userservicemanagment.dto.incoming.incident.*;
 import com.itsm.userservicemanagment.dto.outgoing.Result;
 import com.itsm.userservicemanagment.dto.outgoing.incident.IncidentListOut;
 import com.itsm.userservicemanagment.dto.outgoing.incident.IncidentOut;
+import com.itsm.userservicemanagment.entity.Group;
 import com.itsm.userservicemanagment.entity.category.Impact;
 import com.itsm.userservicemanagment.entity.category.Priority;
 import com.itsm.userservicemanagment.entity.incident.Incident;
 import com.itsm.userservicemanagment.entity.incident.IncidentStatus;
-import com.itsm.userservicemanagment.entity.incident.IncidentStatusReason;
 import com.itsm.userservicemanagment.repository.*;
 import com.itsm.userservicemanagment.service.IIncidentManagementService;
+import com.itsm.userservicemanagment.tools.TransferIncidentToFromDtoObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Slf4j
@@ -200,13 +203,110 @@ public class IncidentManagementService implements IIncidentManagementService {
     }
 
     @Override
-    public Result modifyBodes(UpdateIncidentBodes body) {
-        return null;
+    public Result modifyBodes(String incidentId, UpdateIncidentBodes body) {
+
+        if (incidentId.isEmpty())
+            throw new NotFoundIncidentException("Incident not found!");
+
+        if (repository.findByExternalId(incidentId).isEmpty())
+            throw new NotFoundIncidentException("Incident not found!");
+
+        Incident incident = repository.findByExternalId(incidentId).get();
+
+        incident.setBody(body.getBody());
+        incident.setTitle(body.getTitle());
+        incident.setModifyBy(userRepository.findById(body.getModifyById()).get());
+
+        Result result = new Result();
+        result.setMessage("Body by changed.");
+
+
+        return result;
     }
 
     @Override
-    public Result modifyCategory(UpdateIncidentCategorisation categorisation) {
-        return null;
+    public Result modifyCategory(String incidentId, UpdateIncidentCategorisation categorisation) {
+        if (incidentId.isEmpty())
+            throw new NotFoundIncidentException("Incident not found!");
+
+        if (repository.findByExternalId(incidentId).isEmpty())
+            throw new NotFoundIncidentException("Incident not found!");
+
+        Incident incident = repository.findByExternalId(incidentId).get();
+
+        //Проверяем наличие категории
+        if (categoryRepository.findById(categorisation.getCategoryId()).isPresent()
+                && categorisation.getCategoryId() != null)
+            incident.setCategory(categoryRepository.findById(categorisation.getCategoryId()).get());
+        else
+            throw new NotFoundCategoryException("Category for set by incident not found.");
+
+
+        if (configurationElementRepository.findById(categorisation.getConfigurationElementId()).isPresent()
+                && categorisation.getConfigurationElementId() != null)
+            incident.setConfigurationElement(configurationElementRepository.findById(categorisation.getConfigurationElementId()).get());
+        else
+            throw new NotFoundConfigurationElement("Configuration element not found for update incident.");
+
+        eventLogService.addEventLog(
+                userRepository.findById(categorisation.getModifyById()).get().getLogin(),
+                "INCIDENT",
+                "modifyCategory",
+                "Modify category or configuration element.",
+                incident.getExternalId()
+        );
+
+        repository.save(incident);
+
+        Result result = new Result();
+        result.setDate(LocalDateTime.now());
+        result.setMessage("Configuration element or categorisation is changed.");
+
+
+        return result;
+    }
+
+    @Override
+    public Result resolve(String incidentId, Resolution resolution) {
+
+        if (incidentId.isEmpty())
+            throw new NotFoundIncidentException("Incident not found!");
+
+        if (repository.findByExternalId(incidentId).isEmpty())
+            throw new NotFoundIncidentException("Incident not found!");
+
+        Incident incident = repository.findByExternalId(incidentId).get();
+
+        incident.setStatus(IncidentStatus.RESOLVED);
+        incident.setReason(statusReasonRepository.findByCode(110));
+        incident.setResolution(resolution.getResolution());
+        incident.setLastChangeDate(LocalDateTime.now());
+        incident.setIsResolve(true);
+
+        // Устанавливаем кто последним изменил
+        if (resolution.getResolutionUserById() != null) {
+            if (userRepository.findById(resolution.getResolutionUserById()).isPresent())
+                incident.setModifyBy(userRepository.findById(resolution.getResolutionUserById()).get());
+            else
+                throw new NotFoundUserExcption("User not found!");
+        }
+
+
+        eventLogService.addEventLog(
+                userRepository.findById(resolution.getResolutionUserById()).get().getLogin(),
+                "INCIDENT",
+                "resolve",
+                "Resolve by user.",
+                incident.getExternalId()
+        );
+
+        repository.save(incident);
+
+        Result result = new Result();
+        result.setMessage("Incident by resolve.");
+        result.setDate(LocalDateTime.now());
+
+        return result;
     }
 
     @Override
@@ -288,6 +388,7 @@ public class IncidentManagementService implements IIncidentManagementService {
                 break;
             case 4:
                 incident.setStatus(IncidentStatus.PENDING);
+                incident.setReason(statusReasonRepository.findByCode(104));
                 break;
             case 5:
                 incident.setStatus(IncidentStatus.RESOLVED);
@@ -345,8 +446,42 @@ public class IncidentManagementService implements IIncidentManagementService {
     }
 
     @Override
-    public Result modifyAssigneeGroup(Long assigneeGroupId) {
-        return null;
+    public Result modifyAssigneeGroup(Long assigneeGroupId, String incidentId) {
+
+        // Проверки связанные с существованием инцидента
+        if (incidentId.isEmpty())
+            throw new NotFoundIncidentException("Incident not found!");
+
+        if (repository.findByExternalId(incidentId).isEmpty())
+            throw new NotFoundIncidentException("Incident not found!");
+
+        // Проверяем существует ли такая группа назначения
+        if(repository.findById(assigneeGroupId).isEmpty())
+            throw new NotFoundGroupException("Group by id="+assigneeGroupId+" not found!");
+
+        Incident incident = repository.findByExternalId(incidentId).get();
+
+        Group assigneeGroup = groupRepository.findById(assigneeGroupId).get();
+
+        incident.setAssigneeGroup(assigneeGroup);
+
+        // Проверяем установлен ли у инцидента группа владелец
+        if (incident.getOwnerGroup() == null)
+            incident.setOwnerGroup(assigneeGroup);
+
+        eventLogService.addEventLog(
+                "NOT APPLY USER LOGIN",
+                "INCIDENT",
+                "modifyAssigneeGroup",
+                "Modify by assignee group on group name "+assigneeGroup.getName()+" .",
+                incident.getExternalId()
+        );
+
+        Result result = new Result();
+        result.setDate(LocalDateTime.now());
+        result.setMessage("Incident assignee by group ["+assigneeGroup.getName()+"]. ");
+
+        return result;
     }
 
     @Override
@@ -366,12 +501,67 @@ public class IncidentManagementService implements IIncidentManagementService {
 
     @Override
     public IncidentListOut findByNotAssigneeGroup() {
-        return null;
+
+        List<IncidentOut> incList = new ArrayList<>();
+        IncidentListOut out = new IncidentListOut();
+
+        List<Incident> list = new ArrayList<>();
+
+        if (repository.findByAssigneeGroupIsNull().isEmpty()) {
+            out.setCount(0);
+            out.setList(null);
+        }else {
+
+            //Получаем список инцидентов которые без назначенной группы
+            for (Incident incident : repository.findByAssigneeGroupIsNull())
+                list.add(incident);
+
+
+            //Сериализуем в ДТО из объекта БД
+            for (Incident incident : list)
+                incList.add(TransferIncidentToFromDtoObject.getIncOutFromIncident(incident));
+
+            out.setCount(incList.size());
+            out.setList(incList);
+
+
+        }
+        return out;
     }
 
     @Override
-    public IncidentListOut findByGroupId(Long groupId) {
-        return null;
+    public IncidentListOut findByAssigneeGroupId(Long groupId) {
+
+        // Проверяем существует ли такая группа назначения
+        if(groupRepository.findById(groupId).isEmpty())
+            throw new NotFoundGroupException("Group by id="+groupId+" not found!");
+
+        // || !groupRepository.findById(groupId).get().isAssignee()
+
+        List<IncidentOut> incList = new ArrayList<>();
+        IncidentListOut out = new IncidentListOut();
+
+        List<Incident> list = new ArrayList<>();
+
+        if (repository.findByAssigneeGroupId(groupId).isEmpty()) {
+            out.setCount(0);
+            out.setList(null);
+        }else {
+
+            //Получаем список инцидентов которые без назначенной группы
+            for (Incident incident : repository.findByAssigneeGroupId(groupId))
+                list.add(incident);
+
+
+            //Сериализуем в ДТО из объекта БД
+            for (Incident incident : list)
+                incList.add(TransferIncidentToFromDtoObject.getIncOutFromIncident(incident));
+
+            out.setCount(incList.size());
+            out.setList(incList);
+
+        }
+        return out;
     }
 
     @Override
@@ -394,87 +584,7 @@ public class IncidentManagementService implements IIncidentManagementService {
 
         Incident incident = repository.findByExternalId(id).get();
 
-        incidentOut.setIsRequest(incident.getIsRequest());
-        incidentOut.setIsCritical(incident.getIsCritical());
-        incidentOut.setIsMass(incident.getIsMass());
-        incidentOut.setIsResolve(incident.getIsResolve());
-        incidentOut.setExternalTicketNumber(incident.getTicketNumber());
-        incidentOut.setExternalId(incident.getExternalId());
-        incidentOut.setTitle(incident.getTitle());
-        incidentOut.setBody(incident.getBody());
-        incidentOut.setImpact(incident.getImpact().toString());
-        incidentOut.setPriority(incident.getPriority().toString());
-        //if ()
-        incidentOut.setStatus(incident.getStatus().name());
-        incidentOut.setResolution(incident.getResolution());
-
-        if (incident.getReason() != null)
-            incidentOut.setReason(incident.getReason().getName());
-        else
-            incidentOut.setReason("No reason");
-
-        //Вывод группы назначения
-        if (incident.getAssigneeGroup() != null) {
-            incidentOut.setAssigneeGroupId(incident.getAssigneeGroup().getId());
-            incidentOut.setAssigneeGroupName(incident.getAssigneeGroup().getName());
-        }else {
-            incidentOut.setAssigneeGroupName("No group assignee");
-        }
-
-        //Вывод пользователя назначения
-        if (incident.getAssignee() != null) {
-            incidentOut.setAssigneeUserId(incident.getAssignee().getId());
-            incidentOut.setAssigneeUserFullName(incident.getAssignee().getFullName());
-        }else {
-            incidentOut.setAssigneeUserFullName("No user assignee");
-        }
-
-        //Вывод владельца
-        if (incident.getOwner() != null) {
-            incidentOut.setOwnerUserId(incident.getOwner().getId());
-            incidentOut.setOwnerUserFullName(incident.getOwner().getFullName());
-        }else {
-            incidentOut.setOwnerUserFullName("No owner user");
-        }
-        if (incident.getOwnerGroup() != null) {
-            incidentOut.setAssigneeGroupId(incident.getOwnerGroup().getId());
-            incidentOut.setAssigneeGroupName(incident.getOwnerGroup().getName());
-        }else {
-            incidentOut.setAssigneeGroupName("No owner group");
-        }
-
-        //Вывод категории
-        if(incident.getCategory() != null) {
-            incidentOut.setCategoryName(incident.getCategory().getCategoryName());
-            incidentOut.setCategoryId(incident.getCategory().getId());
-        }else {
-            incidentOut.setCategoryName("Without category");
-        }
-
-        // Вывод подкатегории
-        if (incident.getCategory().getSubCategory() != null) {
-            incidentOut.setSubCategoryName(incident.getCategory().getSubCategory().getCategoryName());
-            incidentOut.setSubCategoryId(incident.getCategory().getSubCategory().getId());
-        } else {
-            incidentOut.setSubCategoryName("Without sub category");
-        }
-
-        //Вывод конфигурационного элемента
-        if (incident.getConfigurationElement() != null) {
-            incidentOut.setConfigurationElementId(incident.getConfigurationElement().getId());
-            incidentOut.setConfigurationElementName(incident.getConfigurationElement().getConfigurationName());
-        } else {
-            incidentOut.setConfigurationElementName("No configuration element set");
-        }
-
-        incidentOut.setIsWasResolve(incident.getIsWasResolved());
-        incidentOut.setCountResolve(incident.getCountResolved());
-
-        // Вывод работы с датой
-        incidentOut.setCreateDate(incident.getCreateDate());
-        incidentOut.setTargetDate(incident.getTargetDate());
-        incidentOut.setLastChangeDate(incident.getLastChangeDate());
-
+        incidentOut = TransferIncidentToFromDtoObject.getIncOutFromIncident(incident);
 
 
         incidentOut.setEvents(eventLogService.getEventsByExternalIdEntity(incident.getExternalId()));

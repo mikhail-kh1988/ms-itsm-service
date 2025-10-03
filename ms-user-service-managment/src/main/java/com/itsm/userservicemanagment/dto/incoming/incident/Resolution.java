@@ -5,10 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UpdateIncidentBodes {
+public class Resolution {
 
-    private String body;
-    private String title;
-    private Long modifyById;
+    private String resolution;
+    private Long resolutionUserById;
 
 }

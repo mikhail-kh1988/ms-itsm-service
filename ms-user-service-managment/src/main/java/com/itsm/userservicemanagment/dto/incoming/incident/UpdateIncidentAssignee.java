@@ -8,7 +8,10 @@ import lombok.Setter;
 @Setter
 public class UpdateIncidentAssignee {
 
+    private String incidentId;
     private Long assigneeUserId;
-    private Long ownerId;
     private Long assigneeGroupId;
+    private Long ownerGroupId;
+    private Long ownerUserId;
+    private Long changeByUserId;
 }

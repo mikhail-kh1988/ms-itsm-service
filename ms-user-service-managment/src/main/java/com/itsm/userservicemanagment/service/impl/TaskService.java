@@ -212,7 +212,7 @@ public class TaskService implements ITaskService {
                 break;
         }
 
-        task.setLastModifyMate(LocalDateTime.now());
+        task.setLastModifyDate(LocalDateTime.now());
 
 
         taskRepository.save(task);

@@ -7,8 +7,11 @@ import java.time.LocalDateTime;
 public class ScheduleTask {
 
 
+/*    final static long time = 1000;
+
+
     //Запуск задачи каждые 1 секунду
-    @Scheduled(fixedDelay = 1000)
+    @Scheduled(fixedDelay = time)
     public void task(){
         System.out.println(LocalDateTime.now());
     }
@@ -21,5 +24,5 @@ public class ScheduleTask {
     @Scheduled(fixedDelay = 1000)
     public void task3(){
         System.out.println("task 33333");
-    }
+    }*/
 }

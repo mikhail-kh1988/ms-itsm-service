@@ -27,7 +27,7 @@ public class TransferTaskToFromDtoObject {
         output.setComments(null);
         output.setLoginCreated(task.getLoginCreated());
         output.setCreateDate(task.getCreateDate());
-        output.setLastModifyDate(task.getLastModifyMate());
+        output.setLastModifyDate(task.getLastModifyDate());
         output.setDateTo(task.getDateTo());
         output.setDateFrom(task.getDateFrom());
 
