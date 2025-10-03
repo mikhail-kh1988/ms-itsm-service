@@ -11,7 +11,7 @@ import com.itsm.userservicemanagment.dto.outgoing.categorization.CategoryList;
 import com.itsm.userservicemanagment.dto.outgoing.categorization.SubCat;
 import com.itsm.userservicemanagment.entity.category.*;
 import com.itsm.userservicemanagment.repository.CategoryRepository;
-import com.itsm.userservicemanagment.repository.SubCategoryRepository;
+import com.itsm.userservicemanagment.repository.RootCategoryRepository;
 import com.itsm.userservicemanagment.repository.UserRepository;
 import com.itsm.userservicemanagment.service.ICategoryService;
 import com.itsm.userservicemanagment.tools.TransferCategoryToFromDtoObject;
@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,7 +29,7 @@ public class CategoryService implements ICategoryService {
     private CategoryRepository categoryRepository;
 
     @Autowired
-    private SubCategoryRepository subCategoryRepository;
+    private RootCategoryRepository rootCategoryRepository;
 
 
     @Autowired
@@ -44,7 +43,7 @@ public class CategoryService implements ICategoryService {
 
         Category category = new Category();
 
-        if (subCategoryRepository.findById(cat.getSubCat()).isEmpty())
+        if (rootCategoryRepository.findById(cat.getSubCat()).isEmpty())
             throw new NotFoundSubCategoryException("Sub category not found!");
 
         if (userRepository.findById(cat.getCreateById()).isEmpty())
@@ -59,7 +58,7 @@ public class CategoryService implements ICategoryService {
         category.setImpactLevel(cat.getImpactLevel());
         category.setDescription(cat.getDescription());
         category.setCategoryName(cat.getName());
-        category.setSubCategory(subCategoryRepository.findById(cat.getSubCat()).get());
+        category.setRootCategory(rootCategoryRepository.findById(cat.getSubCat()).get());
         category.setCreateBy(userRepository.findById(cat.getCreateById()).get());
         category.setOwner(userRepository.findById(cat.getOwner()).get());
         category.setCreateByLogin(userRepository.findById(cat.getCreateById()).get().getLogin());
@@ -75,7 +74,7 @@ public class CategoryService implements ICategoryService {
     @Override
     public Result createNewSubCategory(NewSubCategory subCategory) {
         Result result = new Result();
-        SubCategory subCat = new SubCategory();
+        RootCategory subCat = new RootCategory();
 
         if (userRepository.findById(subCategory.getCreateById()).isEmpty())
             throw new NotFoundUserExcption("User not found!");
@@ -85,7 +84,7 @@ public class CategoryService implements ICategoryService {
         subCat.setDescription(subCategory.getDescription());
         subCat.setCreateByLogin(userRepository.findById(subCategory.getCreateById()).get().getLogin());
 
-        subCategoryRepository.save(subCat);
+        rootCategoryRepository.save(subCat);
 
         result.setMessage("Sub category ["+subCat.getCategoryName()+"] created!");
         result.setDate(LocalDateTime.now());
@@ -108,19 +107,19 @@ public class CategoryService implements ICategoryService {
     @Override
     public SubCat findSubCategory(Long catId) {
 
-        if (subCategoryRepository.findById(catId).isEmpty())
+        if (rootCategoryRepository.findById(catId).isEmpty())
             throw new NotFoundSubCategoryException("Not found sub category");
 
         SubCat cat = new SubCat();
 
-        SubCategory subCategory = subCategoryRepository.findById(catId).get();
+        RootCategory rootCategory = rootCategoryRepository.findById(catId).get();
 
-        cat.setId(subCategory.getId());
-        cat.setCreteDate(subCategory.getCreateDate());
-        cat.setCategoryName(subCategory.getCategoryName());
-        cat.setLastModifyDate(subCategory.getLastModifyDate());
-        cat.setDescription(subCategory.getDescription());
-        cat.setCreateByLogin(subCategory.getCreateByLogin());
+        cat.setId(rootCategory.getId());
+        cat.setCreteDate(rootCategory.getCreateDate());
+        cat.setCategoryName(rootCategory.getCategoryName());
+        cat.setLastModifyDate(rootCategory.getLastModifyDate());
+        cat.setDescription(rootCategory.getDescription());
+        cat.setCreateByLogin(rootCategory.getCreateByLogin());
 
         return cat;
     }
@@ -132,16 +131,16 @@ public class CategoryService implements ICategoryService {
         categoryList.setTotal(0);
         HashMap<String, Long> catNames = new HashMap<>();
 
-        if (categoryRepository.findBySubCategoryId(subCatId).isEmpty())
+        if (categoryRepository.findByRootCategoryId(subCatId).isEmpty())
             throw new NotFoundSubCategoryException("Not found sub category by id ");
 
-        List<Category> bySubCategoryId = categoryRepository.findBySubCategoryId(subCatId);
+        List<Category> bySubCategoryId = categoryRepository.findByRootCategoryId(subCatId);
 
         for (Category cat: bySubCategoryId) {
             catNames.put(cat.getCategoryName(), cat.getId());
         }
 
-        categoryList.setCategory(subCategoryRepository.findById(subCatId).get().getCategoryName());
+        categoryList.setCategory(rootCategoryRepository.findById(subCatId).get().getCategoryName());
         categoryList.setSubCategories(catNames);
         categoryList.setTotal(catNames.size());
 

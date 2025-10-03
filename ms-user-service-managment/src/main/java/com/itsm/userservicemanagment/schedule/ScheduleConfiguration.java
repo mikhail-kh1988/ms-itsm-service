@@ -8,9 +8,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class ScheduleConfiguration {
 
+/*
     @Bean
     public ScheduleTask getScheduleTask(){
         return new ScheduleTask();
     }
+*/
 
 }

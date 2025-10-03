@@ -1,8 +1,6 @@
 package com.itsm.userservicemanagment.entity.category;
 
 import com.itsm.userservicemanagment.entity.User;
-import com.itsm.userservicemanagment.entity.ke.ConfigurationElement;
-import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,7 +22,7 @@ public class Category {
     private LocalDateTime lastModifyDate;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private SubCategory subCategory;
+    private RootCategory rootCategory;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User createBy;

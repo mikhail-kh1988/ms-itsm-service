@@ -5,7 +5,7 @@ import com.itsm.userservicemanagment.dto.outgoing.categorization.SubCat;
 import com.itsm.userservicemanagment.entity.category.Category;
 import com.itsm.userservicemanagment.entity.category.Impact;
 import com.itsm.userservicemanagment.entity.category.Priority;
-import com.itsm.userservicemanagment.entity.category.SubCategory;
+import com.itsm.userservicemanagment.entity.category.RootCategory;
 
 
 public  class TransferCategoryToFromDtoObject {
@@ -14,7 +14,7 @@ public  class TransferCategoryToFromDtoObject {
     public static com.itsm.userservicemanagment.dto.outgoing.categorization.Category getCategoryDTOFromCategoryDB(Category category){
 
 
-        SubCategory subCategory = category.getSubCategory();
+        RootCategory rootCategory = category.getRootCategory();
 
         SubCat subCat = new SubCat();
 
@@ -54,12 +54,12 @@ public  class TransferCategoryToFromDtoObject {
         categoryOut.setOwnerId(category.getOwner().getId());
         categoryOut.setLastModifyDate(category.getLastModifyDate());
 
-        subCat.setCategoryName(subCategory.getCategoryName());
-        subCat.setCreteDate(subCategory.getCreateDate());
-        subCat.setCreateByLogin(subCategory.getCreateByLogin());
-        subCat.setLastModifyDate(subCategory.getLastModifyDate());
-        subCat.setDescription(subCategory.getDescription());
-        subCat.setId(subCategory.getId());
+        subCat.setCategoryName(rootCategory.getCategoryName());
+        subCat.setCreteDate(rootCategory.getCreateDate());
+        subCat.setCreateByLogin(rootCategory.getCreateByLogin());
+        subCat.setLastModifyDate(rootCategory.getLastModifyDate());
+        subCat.setDescription(rootCategory.getDescription());
+        subCat.setId(rootCategory.getId());
 
         categoryOut.setSubCat(subCat);
 

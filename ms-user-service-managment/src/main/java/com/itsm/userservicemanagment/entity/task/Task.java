@@ -38,7 +38,7 @@ public class Task {
     private String assigneeGroupName;
     private String loginCreated;
     private LocalDateTime createDate;
-    private LocalDateTime lastModifyMate;
+    private LocalDateTime lastModifyDate;
     private LocalDateTime dateFrom;
     private LocalDateTime dateTo;
     private String lastModifyLogin;

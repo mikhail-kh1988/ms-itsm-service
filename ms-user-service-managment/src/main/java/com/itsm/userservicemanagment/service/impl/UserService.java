@@ -205,18 +205,12 @@ public class UserService implements IUserService {
     public List<UserOutgoing> getAllUser() {
         List<UserOutgoing> userList = new ArrayList<>();
 
-        if (repository.findAll() == null)
-            throw new NotFoundUserExcption("Not found users!");
-        else {
-
-            for (User user: repository.findAll()){
-                UserOutgoing outgoing = TransferUserToFromDtoObject.getUserOutObject(user);
-                userList.add(outgoing);
-            }
-
-            return userList;
+        for (User user: repository.findAll()){
+              UserOutgoing outgoing = TransferUserToFromDtoObject.getUserOutObject(user);
+              userList.add(outgoing);
         }
 
+            return userList;
     }
 
     @Override

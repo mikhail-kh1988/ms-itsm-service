@@ -9,4 +9,11 @@ public interface ILicenseService {
     void useLicense(String userLogin);
     void deleteLicense(String userLogin);
 
+    Integer getNumCurrentUser();
+
+
+    void parseLicKey(String key);
+    void startLicenseService();
+
+
 }

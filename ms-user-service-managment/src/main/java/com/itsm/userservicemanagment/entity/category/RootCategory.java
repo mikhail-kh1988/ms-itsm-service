@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "sub_category")
-public class SubCategory {
+@Table(name = "root_category")
+public class RootCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

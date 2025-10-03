@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface IncidentRepository extends CrudRepository<Incident, Long> {
 
-    List<Incident> findByAssigneeGroup(Long id);
+    List<Incident> findByAssigneeGroupId(Long id);
     List<Incident> findByAssignee(Long id);
     List<Incident> findByAssigneeGroupIsNull();
     List<Incident> findByAssigneeIsNull();

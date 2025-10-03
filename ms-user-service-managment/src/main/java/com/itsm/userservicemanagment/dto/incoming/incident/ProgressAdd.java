@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class ProgressAdd {
 
+    private String incidentId;
     private String comment;
     private Long createById;
     private String action;

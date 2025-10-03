@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 public class CategoryModel {
 
     private Long id;
-    private SubCategory subCategory1;
-    private SubCategory subCategory2;
+    private RootCategory rootCategory1;
+    private RootCategory rootCategory2;
     private String categoryName;
     private String description;
     private Impact impact;
